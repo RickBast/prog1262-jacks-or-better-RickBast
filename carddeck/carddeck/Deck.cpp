@@ -36,19 +36,9 @@ void Deck::shuffle()
 	_topOfDeck = _deck.size() - 1;
 }
 
-void Deck::sort()
-{
-	std::sort(_deck.begin(), _deck.end(), [](CardPtr lhs, CardPtr rhs) { return (*lhs < *rhs);});
-}
-
 CardPtr Deck::draw()
 {
 	return _deck.at(_topOfDeck--);
-}
-
-CardPtr Deck::cut()
-{
-	return _deck[rand() % _deck.size()];
 }
 
 bool Deck::isEmpty() const

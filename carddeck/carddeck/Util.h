@@ -20,7 +20,7 @@ class Util
 public:
 	Util();
 	~Util();
-	void menu();
+	void menu();//diplays a menu where you can choose to play, view instructions or view pay table
 private:
-	Game game;
+	Game _game;
 };

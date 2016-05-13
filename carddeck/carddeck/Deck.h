@@ -23,13 +23,11 @@ using CardPtr = std::shared_ptr<Card>;
 class Deck
 {
 public:
-	Deck();
-	void shuffle();
-	void sort();
-	CardPtr draw();
-	CardPtr cut();
-	bool isEmpty() const;
+	Deck();// creates every card and puts them in a vector
+	void shuffle();// shuffles every card in _deck
+	CardPtr draw();// draws card from top of deck
+	bool isEmpty() const; // checks to see if the deck is out of cards
 private:
-	std::vector<CardPtr> _deck;
+	std::vector<CardPtr> _deck;//holds the deck
 	int _topOfDeck;
 };

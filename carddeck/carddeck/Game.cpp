@@ -91,8 +91,8 @@ void Game::play()
 	system("cls");
 	std::cout << _hand.toStringNoHold() << std::endl;
 	PokerHand rank = getRank();
-	std::cout << "you got a " << _handResult.at(rank) << std::endl;
-	std::cout <<  "this hand pays out " << _payOutSheet.at(rank) << " times your bet." << std::endl;
+	std::cout << "you got a " << _handResult.at(rank) << std::endl;// displays poker hand name
+	std::cout <<  "this hand pays out " << _payOutSheet.at(rank) << " times your bet." << std::endl;// displays value of pay out
 	system("pause");
 }
 

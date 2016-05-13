@@ -46,13 +46,13 @@ void Util::menu()
 		switch (tolower(choice))
 		{
 		case 'p':
-			game.play();
+			_game.play();
 			break;
 		case 't':
-			game.showPayTable();
+			_game.showPayTable();
 			break;
 		case 'i':
-			game.instructions();
+			_game.instructions();
 			break;
 		case 'q':
 			quit = true;
