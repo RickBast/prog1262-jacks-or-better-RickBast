@@ -207,11 +207,11 @@ void Hand::drawOrHold()
 		if (i > 0 && i < 6)
 		{
 			i = i - 1;
-		_hand[i].second = !_hand[i].second;
-	}
+			_hand[i].second = !_hand[i].second;
+		}
 		system("cls");
 		std::cout << toString() << std::endl;
 		std::cout << "choose cards you want to draw or hold (1-5) and press (p) when you are ready to continue.";
 	}
-		_hand.erase(remove_if(_hand.begin(), _hand.end(), [](std::pair<CardPtr, bool>e) {return e.second;}), _hand.end());
+	_hand.erase(remove_if(_hand.begin(), _hand.end(), [](std::pair<CardPtr, bool>e) {return e.second;}), _hand.end());
 }

@@ -59,6 +59,7 @@ void Util::menu()
 			break;
 		default:
 			std::cout << "invalid choice\n";
+			system("pause");
 			break;
 		}
 	} while (!quit);

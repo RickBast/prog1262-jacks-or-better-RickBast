@@ -16,7 +16,7 @@
 #include "Util.h"
 
 int main()
-{	
+{
 	Util game;
 	game.menu();
 }

@@ -32,7 +32,6 @@ struct Card
 	static const std::set<Face> faces;
 	static const std::map<Face, std::string> faceNames;
 	static const std::map<Suit, std::string> suitNames;
-
 };
 inline bool operator==(const Card& lhs, const  Card& rhs) { return ((lhs.face == rhs.face) && (lhs.suit == rhs.suit)); }/////////////////////////////////
 inline bool operator< (const Card& lhs, const  Card& rhs) {																//
