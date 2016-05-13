@@ -1,6 +1,21 @@
 #pragma once
 #include <string>
 #include <set>
+///////////////////////////////////////////////////////////////////////
+// File:  Card.h
+//
+// Author: Ricky Bastarache 
+// This assignment represents my own work and is in accordance with the College Academic Policy
+//
+// Copyright (c) 2016 All Right Reserved by Dave Burchill
+// Contributors: 
+// Description:  
+//
+// Date: May 2016
+//
+// Revisions:
+//
+/////////////////////////////////////////////////////////////////////
 #include <map>
 #include <vector>
 
@@ -19,7 +34,6 @@ struct Card
 	static const std::map<Suit, std::string> suitNames;
 
 };
-
 inline bool operator==(const Card& lhs, const  Card& rhs) { return ((lhs.face == rhs.face) && (lhs.suit == rhs.suit)); }
 inline bool operator< (const Card& lhs, const  Card& rhs) {
 	if (lhs.face < rhs.face) return true;
@@ -30,5 +44,4 @@ inline bool operator!=(const Card& lhs, const  Card& rhs) { return !operator==(l
 inline bool operator> (const Card& lhs, const  Card& rhs) { return  operator<(rhs, lhs); }
 inline bool operator<=(const Card& lhs, const  Card& rhs) { return !operator>(lhs, rhs); }
 inline bool operator>=(const Card& lhs, const  Card& rhs) { return !operator<(lhs, rhs); }
-
 std::ostream&  operator<<(std::ostream& os, Card& c);

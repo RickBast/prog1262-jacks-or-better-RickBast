@@ -1,36 +1,22 @@
-#include <iostream>
-#include "Card.h"
-#include "Deck.h"
-#include "Hand.h"
-#include <chrono>
-
-using std::cout;
-using std::endl;
+///////////////////////////////////////////////////////////////////////
+// File:  Source.cpp
+//
+// Author: Ricky Bastarache 
+// This assignment represents my own work and is in accordance with the College Academic Policy
+//
+// Copyright (c) 2016 All Right Reserved by Dave Burchill
+// Contributors: 
+// Description:  
+//
+// Date: May 2016
+//
+// Revisions:
+//
+/////////////////////////////////////////////////////////////////////
+#include "Util.h"
 
 int main()
-{
-	srand(static_cast<unsigned int>(time(0)));
-	Deck deck;
-	Hand hand;
-	deck.sort();
-	deck.shuffle();
-
-
-	while (hand.size() < 5)
-		hand.addCard(deck.draw());
-	cout << hand.toString() << endl;
-		
-
-	//while (hand.isTwoPair() == false)
-	//{
-	//	hand.clearHand();
-	//	deck.shuffle();
-	//	while (hand.size() < 5)
-	//		hand.addCard(deck.draw());
-	//	cout << hand.toString() << endl;
-
-
-	system("pause");
-
+{	
+	Util game;
+	game.menu();
 }
-

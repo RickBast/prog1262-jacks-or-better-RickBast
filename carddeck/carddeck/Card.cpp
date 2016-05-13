@@ -1,11 +1,24 @@
+///////////////////////////////////////////////////////////////////////
+// File:  Card.cpp
+//
+// Author: Ricky Bastarache 
+// This assignment represents my own work and is in accordance with the College Academic Policy
+//
+// Copyright (c) 2016 All Right Reserved by Dave Burchill
+// Contributors: 
+// Description:  
+//
+// Date: May 2016
+//
+// Revisions:
+//
+/////////////////////////////////////////////////////////////////////
 #include "Card.h"
 
 std::string Card::toString() const
 {
 	return  Card::faceNames.at(face) + " of " + Card::suitNames.at(suit);
 }
-
-
 
 std::ostream& operator<<(std::ostream& os, Card& c)
 {
@@ -28,7 +41,7 @@ const std::set<Face>Card::faces
 	Face::TEN,
 	Face::JACK,
 	Face::QUEEN,
-	Face::KING 
+	Face::KING
 };
 
 const std::map<Face, std::string> Card::faceNames
@@ -55,4 +68,3 @@ const std::map<Suit, std::string> Card::suitNames
 	{ Suit::HEART, "heart" },
 	{ Suit::SPADE, "spade" }
 };
-

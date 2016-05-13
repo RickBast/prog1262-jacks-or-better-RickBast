@@ -1,8 +1,24 @@
+///////////////////////////////////////////////////////////////////////
+// File:  Hand.cpp
+//
+// Author: Ricky Bastarache 
+// This assignment represents my own work and is in accordance with the College Academic Policy
+//
+// Copyright (c) 2016 All Right Reserved by Dave Burchill
+// Contributors: 
+// Description:  
+//
+// Date: May 2016
+//
+// Revisions:
+//
+/////////////////////////////////////////////////////////////////////
 #include "Hand.h"
+#include <sstream>
+#include <utility>
 
 Hand::Hand()
 {
-
 }
 
 int Hand::size()
@@ -10,58 +26,64 @@ int Hand::size()
 	return _hand.size();
 }
 
-
 void Hand::clearHand()
 {
 	_hand.clear();
-	_face.clear();
-	_suit.clear();
 	_faceset.clear();
 }
 
 void Hand::addCard(CardPtr crd)
 {
-	_hand.push_back(crd);
-	_face[crd->face]++;
-	_suit[crd->suit]++;
+	_hand.push_back(std::pair<CardPtr, bool>(crd, true));
 	_faceset.insert(crd->face);
-
 }
 
 bool Hand::isPair() const
 {
-	auto itr = std::find_if(_face.begin(), _face.end(), [](std::pair<Face, int> e) {return 	e.second == 2;});
-	if (itr != _face.end())
+	std::map<Face, int> faces;
+	for (auto e : _hand)
+		faces[e.first->face]++;
+	auto itr = std::find_if(faces.begin(), faces.end(), [](std::pair<Face, int> e) {return 	e.second == 2;});
+	if (itr != faces.end())
 		return true;
 	return false;
 }
 
 bool Hand::isThreeOfAKind() const
 {
-	auto itr = std::find_if(_face.begin(), _face.end(), [](std::pair<Face, int> e) {
+	std::map<Face, int> faces;
+	for (auto e : _hand)
+		faces[e.first->face]++;
+	auto itr = std::find_if(faces.begin(), faces.end(), [](std::pair<Face, int> e) {
 		return 	e.second == 3;
 	});
-	if (itr != _face.end())
+	if (itr != faces.end())
 		return true;
 	return false;
 }
 
 bool Hand::isFourOfAKind() const
 {
-	auto itr = std::find_if(_face.begin(), _face.end(), [](std::pair<Face, int> e) {
+	std::map<Face, int> faces;
+	for (auto e : _hand)
+		faces[e.first->face]++;
+	auto itr = std::find_if(faces.begin(), faces.end(), [](std::pair<Face, int> e) {
 		return 	e.second == 4;
 	});
-	if (itr != _face.end())
+	if (itr != faces.end())
 		return true;
 	return false;
 }
 
 bool Hand::isFlush() const
 {
-	auto itr = std::find_if(_suit.begin(), _suit.end(), [](std::pair<Suit, int> e) {
+	std::map<Suit, int> suits;
+	for (auto e : _hand)
+		suits[e.first->suit]++;
+	auto itr = std::find_if(suits.begin(), suits.end(), [](std::pair<Suit, int> e) {
 		return 	e.second == 5;
 	});
-	if (itr != _suit.end())
+	if (itr != suits.end())
 		return true;
 	return false;
 }
@@ -77,18 +99,17 @@ bool Hand::isStraight() const
 
 		if (max - min == (_hand.size() - 1))
 			return true;
-		int ace = 13;
-		for (auto itr3 : _faceset)
+		for (auto f : _faceset)
 		{
-			if (0 == static_cast<int>(itr3))
+			if (0 == static_cast<int>(f))
 			{
+				int ace = 13;
 				auto itr4 = ++_faceset.begin();
 				min = static_cast<int>(*itr4);
 				if (ace - min == 4)
 					return true;
 			}
 		}
-
 	}
 	return false;
 }
@@ -102,7 +123,10 @@ bool Hand::isFullHouse() const
 
 bool Hand::isTwoPair() const
 {
-	auto itr = std::count_if(_face.begin(), _face.end(), [](std::pair<Face, int> e)
+	std::map<Face, int> faces;
+	for (auto e : _hand)
+		faces[e.first->face]++;
+	auto itr = std::count_if(faces.begin(), faces.end(), [](std::pair<Face, int> e)
 	{
 		return 	e.second == 2;
 	});
@@ -113,46 +137,31 @@ bool Hand::isTwoPair() const
 
 std::string Hand::toString()
 {
-	std::string hand;
+	std::stringstream ss;
+	std::string hand = "";
+	int i = 0;
 	for (auto e : _hand)
 	{
-		hand += e->toString() + " / ";
+		++i;
+		ss << i << ": " << *(e.first);
+		if (e.second)
+			ss << "  (draw)\n";
+		else
+			ss << "  (hold)\n";
 	}
-	hand += "\n" + handResult();
-	return hand;
+	return ss.str();
 }
 
-void Hand::sort()
+std::string Hand::toStringNoHold()
 {
-	std::sort(_hand.begin(), _hand.end(), [](CardPtr lhs, CardPtr rhs) { return (*lhs < *rhs);});
+	std::stringstream ss;
+	std::string hand;
+	int i = 0;
+	for (auto e : _hand)
+		ss << ++i << ": " << *(e.first) << std::endl;
+	return ss.str();
 }
 
-std::string Hand::handResult()
-{
-	std::string handResult;
-	if (isRoyalFlush() == true)
-		handResult = " Royal Flush ";
-	else if (isStraightFlush() == true)
-		handResult = " Straight Flush ";
-	else if (isStraight() == true)
-		handResult = " Straight ";
-	else if (isFlush() == true)
-		handResult = " Flush ";
-	else if (isFullHouse() == true)
-		handResult = " Full House ";
-	else if (isFourOfAKind() == true)
-		handResult = "  Four of a Kind ";
-	else if (isThreeOfAKind() == true)
-		handResult = "  Three of a Kind ";
-	else if (isTwoPair() == true)
-		handResult = "  Two Pairs ";
-	else if (isJacksOrBetter() == true)
-		handResult = "  Jacks or better ";
-	else
-		handResult = "";
-
-	return handResult;
-}
 
 bool Hand::isStraightFlush() const
 {
@@ -174,13 +183,35 @@ bool Hand::isRoyalFlush() const
 
 bool Hand::isJacksOrBetter() const
 {
+	std::map<Face, int> faces;
+	for (auto e : _hand)
+		faces[e.first->face]++;
 	if (isPair() == true)
 	{
-
-		auto itr = std::find_if(_face.begin(), _face.end(), [](std::pair<Face, int> e) {return 	e.second == 2;});
-		if (itr != _face.end())
+		auto itr = std::find_if(faces.begin(), faces.end(), [](std::pair<Face, int> e) {return 	e.second == 2;});
+		if (itr != faces.end())
 			if (itr->first >= Face::JACK || itr->first == Face::ACE)
 				return true;
 	}
 	return false;
+}
+
+void Hand::drawOrHold()
+{
+	std::string str;
+	while (str != "p")
+	{
+		int i = 6;
+		std::cin >> str;
+		std::istringstream(str) >> i;
+		if (i > 0 && i < 6)
+		{
+			i = i - 1;
+		_hand[i].second = !_hand[i].second;
+	}
+		system("cls");
+		std::cout << toString() << std::endl;
+		std::cout << "choose cards you want to draw or hold (1-5) and press (p) when you are ready to continue.";
+	}
+		_hand.erase(remove_if(_hand.begin(), _hand.end(), [](std::pair<CardPtr, bool>e) {return e.second;}), _hand.end());
 }
